@@ -311,7 +311,27 @@ defmodule Astarte.TriggerEngine.EventsConsumer do
     end
   end
 
+  def ecto_get_connected_remaining_ttl(realm, device_id) do
+    alias Astarte.DataUpdaterPlant.Device
+    alias Astarte.Core.CQLUtils
+    alias Astarte.DataUpdaterPlant.Config
+    import Ecto.Query
+    alias Astarte.DataUpdaterPlant.Repo
+
+    keyspace_name =
+      CQLUtils.realm_name_to_keyspace_name(realm, Config.astarte_instance_id!())
+
+    Device
+    |> where(device_id: ^device_id)
+    # TODO
+    |> select([device], fragment("TTL(?)", device.connected))
+    |> put_query_prefix(keyspace_name)
+    |> Repo.one()
+  end
+
   defp retrieve_trigger_configuration(realm_name, trigger_id) do
+    # TODO this query
+
     query =
       DatabaseQuery.new()
       |> DatabaseQuery.statement(
