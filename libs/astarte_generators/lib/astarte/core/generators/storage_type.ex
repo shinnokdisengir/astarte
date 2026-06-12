@@ -1,7 +1,7 @@
 #
 # This file is part of Astarte.
 #
-# Copyright 2025 SECO Mind Srl
+# Copyright 2025 - 2026 SECO Mind Srl
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ defmodule Astarte.Core.Generators.StorageType do
   @moduledoc """
   This module provides generators for StorageType.
   """
+  use ExUnitProperties
+
   alias Astarte.Core.Interface
   alias Astarte.Core.StorageType
-
-  use ExUnitProperties
 
   @doc """
   Generates a valid Astarte StorageType
@@ -47,11 +47,8 @@ defmodule Astarte.Core.Generators.StorageType do
     end
   end
 
-  @doc """
-  Convert this struct stream to changes
-  """
-  @spec to_changes(StreamData.t(StorageType.t())) :: StreamData.t(integer())
-  def to_changes(gen) do
-    gen |> map(&StorageType.to_int/1)
-  end
+  # @spec to_changes(StreamData.t(StorageType.t())) :: StreamData.t(integer())
+  # def to_changes(gen) do
+  #   gen |> map(&StorageType.to_int/1)
+  # end
 end

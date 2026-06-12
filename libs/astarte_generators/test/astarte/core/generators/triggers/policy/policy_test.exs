@@ -30,6 +30,12 @@ defmodule Astarte.Core.Generators.Triggers.PolicyTest do
     @describetag :success
     @describetag :ut
 
+    property "generates valid policies" do
+      check all policy <- PolicyGenerator.policy() do
+        assert policy.valid?, "Invalid policy: #{inspect(policy.errors)}"
+      end
+    end
+
     property "generates valid policies using to_changes (gen)" do
       gen_policy_changes = PolicyGenerator.policy() |> PolicyGenerator.to_changes()
 

@@ -22,9 +22,7 @@ defmodule Astarte.Core.Generators.Device do
 
   See https://hexdocs.pm/astarte_core/Astarte.Core.Device.html
   """
-  use ExUnitProperties
-
-  import Astarte.Generators.Utilities.ParamsGen
+  use Astarte.Generators.Utilities.ParamsGen
 
   alias Astarte.Common.Generators.Ip, as: IpGenerator
   alias Astarte.Common.Generators.Timestamp, as: TimestampGenerator

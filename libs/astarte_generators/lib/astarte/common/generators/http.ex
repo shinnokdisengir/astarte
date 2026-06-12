@@ -1,7 +1,7 @@
 #
 # This file is part of Astarte.
 #
-# Copyright 2025 SECO Mind Srl
+# Copyright 2025 - 2026 SECO Mind Srl
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -59,21 +59,21 @@ defmodule Astarte.Common.Generators.HTTP do
   @doc """
   Generator for a valid port
   """
-  @spec valid_port() :: StreamData.t(integer())
-  def valid_port, do: integer(0..65_535)
+  @spec http_valid_port() :: StreamData.t(integer())
+  def http_valid_port, do: integer(0..65_535)
 
   @doc """
   Generator for HTTP methods
   """
-  @spec method() :: StreamData.t(String.t())
-  def method, do: member_of(@http_methods)
+  @spec http_method() :: StreamData.t(String.t())
+  def http_method, do: member_of(@http_methods)
 
   @doc """
   Valid http or https url as per RFC 3986
   """
-  @spec url() :: StreamData.t(String.t())
-  @spec url(params :: keyword()) :: StreamData.t(String.t())
-  def url(params \\ []) do
+  @spec http_url() :: StreamData.t(String.t())
+  @spec http_url(params :: keyword()) :: StreamData.t(String.t())
+  def http_url(params \\ []) do
     params gen all schema <- schema(),
                    user_info <- user_info(),
                    host <- host(),
@@ -106,7 +106,7 @@ defmodule Astarte.Common.Generators.HTTP do
 
   defp port do
     one_of([
-      valid_port() |> Utilities.print(pre: ":"),
+      http_valid_port() |> Utilities.print(pre: ":"),
       constant("")
     ])
   end
