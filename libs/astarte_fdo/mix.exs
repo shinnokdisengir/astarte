@@ -22,7 +22,7 @@ defmodule Astarte.FDO.MixProject do
     [
       app: :astarte_fdo,
       # x-release-please-start-version
-      version: "0.1.0",
+      version: "1.5.0-dev",
       # x-release-please-end
       elixir: "~> 1.20",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -72,7 +72,7 @@ defmodule Astarte.FDO.MixProject do
       {:mimic, "~> 2.3", only: :test},
       {:stream_data, "~> 1.1", only: :test},
       {:astarte_generators, path: "../astarte_generators", only: :test},
-      {:typedstruct, "~> 0.5"},
+      {:typedstruct, github: "saleyn/typedstruct"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:phoenix, "~> 1.7"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},

@@ -29,31 +29,27 @@ ENV MIX_ENV=prod
 ARG BUILD_ENV=prod
 
 ENV MIX_ENV=$BUILD_ENV
-ENV ASTARTE_LIBRARIES_PATH=../libraries
+ENV ASTARTE_LIBRARIES_PATH=../../libraries
 
 # Cache elixir deps
-ADD apps/astarte_vmq_plugin/mix.exs apps/astarte_vmq_plugin/mix.lock astarte_vmq_plugin/
+ADD mix.exs mix.lock .
+ADD apps/astarte_vmq_plugin/mix.exs apps/astarte_vmq_plugin/
 COPY libs/astarte_core/mix.exs libraries/astarte_core/mix.exs
 COPY libs/astarte_core/mix.lock libraries/astarte_core/mix.lock
-RUN cd astarte_vmq_plugin && \
-  mix do deps.get + deps.compile --skip-local-deps && \
-  cd ..
+RUN mix do deps.get + deps.compile --skip-local-deps
 
 COPY libs/astarte_core libraries/astarte_core
-RUN cd astarte_vmq_plugin && \
-  mix deps.compile && \
-  cd ..
+RUN mix deps.compile
 
 # Add all the rest
-ADD apps/astarte_vmq_plugin astarte_vmq_plugin/
+ADD apps/astarte_vmq_plugin apps/astarte_vmq_plugin/
 
 # Build and release
-RUN cd astarte_vmq_plugin && \
-  mix do compile + release && \
-  cd ..
+RUN mix compile
+RUN mix release astarte_vmq_plugin
 
 # Copy the schema over
-RUN cp astarte_vmq_plugin/priv/astarte_vmq_plugin.schema vernemq/_build/default/rel/vernemq/share/schema/
+RUN cp apps/astarte_vmq_plugin/priv/astarte_vmq_plugin.schema vernemq/_build/default/rel/vernemq/share/schema/
 
 # Copy configuration files here - mainly because we want to keep the target image as small as possible
 # and avoid useless layers.
@@ -79,12 +75,6 @@ RUN apt-get -qq update && apt-get -qq install libssl3t64 curl jq iproute2 ncat &
 
 ENV PATH="/opt/vernemq/bin:$PATH"
 
-COPY --from=builder /build/astarte_vmq_plugin/docker/bin/vernemq.sh /usr/sbin/start_vernemq
-COPY --from=builder /build/astarte_vmq_plugin/docker/bin/join_cluster.sh /usr/sbin/join_cluster
-
-RUN chmod +x /usr/sbin/start_vernemq
-RUN chmod +x /usr/sbin/join_cluster
-
 # Copy our built stuff (both are self-contained with their ERTS release)
 COPY --from=builder /build/vernemq/_build/default/rel/vernemq /opt/vernemq/
 
@@ -92,7 +82,7 @@ RUN ln -s /opt/vernemq/etc /etc/vernemq && \
     ln -s /opt/vernemq/data /var/lib/vernemq && \
     ln -s /opt/vernemq/log /var/log/vernemq
 
-COPY --from=builder /build/astarte_vmq_plugin/_build/$BUILD_ENV/rel/astarte_vmq_plugin /opt/astarte_vmq_plugin/
+COPY --from=builder /build/_build/$BUILD_ENV/rel/astarte_vmq_plugin /opt/astarte_vmq_plugin/
 
 # Ports
 # 80  Webroot ACME verification (in case)
@@ -112,4 +102,4 @@ VOLUME ["/opt/vernemq/log", "/opt/vernemq/data", "/opt/vernemq/etc"]
 
 HEALTHCHECK CMD vernemq ping | grep -q pong
 
-CMD ["start_vernemq"]
+CMD ["/opt/astarte_vmq_plugin/bin/start_vernemq"]

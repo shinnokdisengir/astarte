@@ -3,6 +3,10 @@
 !Dockerfile
 !.dockerignore
 
+!mix.exs
+!mix.lock
+!config/
+!/rel/
 !/apps/
 !/libs/
 !/tools/
@@ -31,6 +35,9 @@
 **/*.plt
 **/.concrete/DEV_MODE
 **/erl_crash.dump
+
+# Standard Rust gitignore to be applied to all apps
+**/target/
 
 # rebar 2.x
 **/.rebar
