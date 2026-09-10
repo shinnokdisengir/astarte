@@ -8,4 +8,12 @@ config :astarte_housekeeping, Astarte.HousekeepingWeb.Endpoint,
   server: true,
   version: Application.spec(:astarte_housekeeping, :vsn)
 
+config :astarte_pairing, Astarte.PairingWeb.Endpoint,
+  server: true,
+  version: Application.spec(:astarte_pairing, :vsn)
+
+config :astarte_realm_management, Astarte.RealmManagementWeb.Endpoint,
+  server: true,
+  version: Application.spec(:astarte_realm_management, :vsn)
+
 config :logger, level: :info
