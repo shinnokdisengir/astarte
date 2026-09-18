@@ -1,7 +1,7 @@
 #
 # This file is part of Astarte.
 #
-# Copyright 2025 SECO Mind Srl
+# Copyright 2026 SECO Mind Srl
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,23 @@
 # limitations under the License.
 #
 
-import Config
+defmodule Astarte.Common.Generators.UUID do
+  @moduledoc """
+  Generates RFC 4122 version 4 UUIDs in their raw binary representation.
+  """
+  use ExUnitProperties
 
-config :astarte_secrets, vault_authentication_mechanism: :token
-config :astarte_secrets, vault_token: "astarte_token"
+  @typedoc "A raw RFC 4122 UUID."
+  @type t :: <<_::128>>
+
+  @doc """
+  Generates a random RFC 4122 version 4 UUID.
+  """
+  @spec uuid() :: StreamData.t(t())
+  def uuid do
+    gen all binary <- binary(length: 16) do
+      <<prefix::48, _version::4, middle::12, _variant::2, suffix::62>> = binary
+      <<prefix::48, 4::4, middle::12, 2::2, suffix::62>>
+    end
+  end
+end

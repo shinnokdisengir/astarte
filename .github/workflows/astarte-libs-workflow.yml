@@ -52,20 +52,10 @@ jobs:
     with:
       lib: "astarte_generators"
     secrets: inherit
-  astarte_fdo:
-    uses: ./.github/workflows/astarte-libs-build-workflow.yaml
-    with:
-      lib: "astarte_fdo"
-    secrets: inherit
   astarte_fdo_core:
     uses: ./.github/workflows/astarte-libs-build-workflow.yaml
     with:
       lib: "astarte_fdo_core"
-    secrets: inherit
-  astarte_test_suite:
-    uses: ./.github/workflows/astarte-libs-build-workflow.yaml
-    with:
-      lib: "astarte_test_suite"
     secrets: inherit
   astarte_rpc:
     uses: ./.github/workflows/astarte-libs-build-workflow.yaml
@@ -76,9 +66,4 @@ jobs:
     uses: ./.github/workflows/astarte-libs-build-workflow.yaml
     with:
       lib: "astarte_secrets"
-    secrets: inherit
-  astarte_adapters:
-    uses: ./.github/workflows/astarte-libs-build-workflow.yaml
-    with:
-      lib: "astarte_adapters"
     secrets: inherit

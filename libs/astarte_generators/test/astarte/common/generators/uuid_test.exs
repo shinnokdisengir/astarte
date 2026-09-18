@@ -16,6 +16,23 @@
 # limitations under the License.
 #
 
-import Config
+defmodule Astarte.Common.Generators.UUIDTest do
+  @moduledoc false
+  use ExUnit.Case, async: true
+  use ExUnitProperties
 
-import_config "#{config_env()}.exs"
+  import Astarte.Common.Generators.UUID
+
+  alias Ecto.UUID
+
+  @moduletag :common
+  @moduletag :uuid
+
+  describe "UUID generator" do
+    property "generates RFC 4122 version 4 UUIDs" do
+      check all uuid <- uuid() do
+        assert {:ok, _} = UUID.cast(uuid)
+      end
+    end
+  end
+end
