@@ -35,7 +35,7 @@ defmodule Astarte.DataUpdaterPlant.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env()),
       test_coverage: [tool: ExCoveralls],
       dialyzer: [plt_add_apps: [:astarte_realm_management, :ex_unit]],
-      deps: deps() ++ astarte_required_modules(System.get_env("ASTARTE_IN_UMBRELLA"))
+      deps: deps()
     ]
   end
 
@@ -61,24 +61,13 @@ defmodule Astarte.DataUpdaterPlant.Mixfile do
   defp elixirc_paths(:test), do: ["test/support", "lib"]
   defp elixirc_paths(_), do: ["lib"]
 
-  defp astarte_required_modules("true") do
-    [
-      {:astarte_generators, in_umbrella: true, only: [:dev, :test]}
-    ]
-  end
-
-  defp astarte_required_modules(_) do
-    [
-      {:astarte_generators, path: astarte_lib("astarte_generators"), only: [:dev, :test]},
-      {:astarte_realm_management, in_umbrella: true, only: :test, runtime: false},
-      {:astarte_events, path: astarte_lib("astarte_events")},
-      {:astarte_secrets, path: astarte_lib("astarte_secrets")}
-    ]
-  end
-
   defp deps do
     [
-      {:astarte_core, path: astarte_lib("astarte_core")},
+      {:astarte_core, in_umbrella: true},
+      {:astarte_events, in_umbrella: true},
+      {:astarte_generators, in_umbrella: true, only: [:dev, :test]},
+      {:astarte_realm_management, in_umbrella: true, only: :test, runtime: false},
+      {:astarte_secrets, in_umbrella: true},
       {:jason, "~> 1.2"},
       {:amqp, "~> 4.1"},
       {:castore, "~> 1.0.0"},
@@ -90,14 +79,13 @@ defmodule Astarte.DataUpdaterPlant.Mixfile do
       {:mississippi, github: "secomind/mississippi"},
       {:mox, "~> 1.3", only: :test},
       {:mimic, "~> 2.3", only: [:dev, :test]},
-      {:exandra, github: "vinniefranco/exandra"},
       {:libcluster, "~> 3.3"},
       # https://github.com/elixir-horde/horde/pull/291
       {:horde, github: "noaccOS/horde", branch: "push-ozyqtonylvpv"},
       {:pretty_log, "~> 0.1"},
       {:bandit, "~> 1.11"},
       {:typed_ecto_schema, "~> 0.4"},
-      {:astarte_data_access, path: astarte_lib("astarte_data_access"), override: true},
+      {:astarte_data_access, in_umbrella: true},
       {:astarte_rpc, in_umbrella: true},
       {:skogsra, "~> 2.2"},
       {:telemetry, "~> 1.0"},
@@ -106,20 +94,15 @@ defmodule Astarte.DataUpdaterPlant.Mixfile do
       {:telemetry_metrics_prometheus_core, "~> 1.2"},
       {:observer_cli, "~> 1.8"},
       {:recon, "2.5.6", override: true},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:uuid, "~> 2.0", hex: :uuid_erl},
       {:typedstruct, github: "saleyn/typedstruct", override: true},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:hkdf, "~> 0.3.0"},
       {:httpoison, "~> 3.0", override: true},
-      {:hackney, github: "benoitc/hackney", override: true},
+      {:hackney, "~> 4.0", override: true},
       {:tzdata, github: "lau/tzdata", override: true}
     ]
-  end
-
-  defp astarte_lib(library_name) do
-    base_directory = System.get_env("ASTARTE_LIBRARIES_PATH", "../../libs")
-    Path.join(base_directory, library_name)
   end
 end

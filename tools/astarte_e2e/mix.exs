@@ -44,9 +44,9 @@ defmodule AstarteE2E.MixProject do
   defp deps do
     [
       {:astarte_device, github: "astarte-platform/astarte-device-sdk-elixir"},
-      {:astarte_core, path: astarte_lib("astarte_core"), override: true},
+      {:astarte_core, path: astarte_app("astarte_core"), override: true},
       {:astarte_adapters, path: astarte_app("astarte_adapters")},
-      {:astarte_generators, path: astarte_lib("astarte_generators")},
+      {:astarte_generators, path: astarte_app("astarte_generators")},
       {:phoenix_gen_socket_client, "~> 4.0"},
       {:castore, "~> 1.0.0"},
       {:amqp, "~> 4.0"},
@@ -66,7 +66,7 @@ defmodule AstarteE2E.MixProject do
       {:hukai, "~> 0.3"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:httpoison, "~> 3.0", override: true},
-      {:hackney, github: "benoitc/hackney", override: true},
+      {:hackney, "~> 4.0", override: true},
       {:tzdata, github: "lau/tzdata", override: true},
       {:decimal, "~> 3.0", override: true}
     ]
@@ -75,10 +75,5 @@ defmodule AstarteE2E.MixProject do
   defp astarte_app(app_name) do
     base_directory = System.get_env("ASTARTE_APPS_PATH", "../../apps")
     Path.join(base_directory, app_name)
-  end
-
-  defp astarte_lib(library_name) do
-    base_directory = System.get_env("ASTARTE_LIBRARIES_PATH", "../../libs")
-    Path.join(base_directory, library_name)
   end
 end

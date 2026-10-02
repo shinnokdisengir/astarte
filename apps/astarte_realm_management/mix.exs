@@ -66,7 +66,7 @@ defmodule Astarte.RealmManagement.Mixfile do
 
   defp deps do
     [
-      {:astarte_core, path: astarte_lib("astarte_core")},
+      {:astarte_core, in_umbrella: true},
       {:phoenix, "~> 1.7"},
       {:bandit, "~> 1.11"},
       {:gettext, "~> 0.24"},
@@ -86,13 +86,13 @@ defmodule Astarte.RealmManagement.Mixfile do
       {:telemetry_metrics, "~> 1.1"},
       {:telemetry_poller, "~> 1.3"},
       {:telemetry_metrics_prometheus_core, "~> 1.2"},
-      {:astarte_data_access, path: astarte_lib("astarte_data_access")},
-      {:astarte_generators, path: astarte_lib("astarte_generators"), only: [:dev, :test]},
+      {:astarte_data_access, in_umbrella: true},
+      {:astarte_generators, in_umbrella: true, only: [:dev, :test]},
       {:astarte_adapters, in_umbrella: true, only: [:dev, :test]},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:astarte_events, path: astarte_lib("astarte_events")},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:astarte_events, in_umbrella: true},
       {:astarte_rpc, in_umbrella: true},
-      {:mimic, "~> 2.3", only: [:test, :dev]},
+      {:mimic, "~> 2.4", only: [:test, :dev]},
       {:ssl_verify_fun, "~> 1.1.7"},
       {:uuid, "~> 2.0", hex: :uuid_erl},
       {:libcluster, "~> 3.3"},
@@ -102,13 +102,8 @@ defmodule Astarte.RealmManagement.Mixfile do
       {:ymlr, "~> 5.1"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:httpoison, "~> 3.0", override: true},
-      {:hackney, github: "benoitc/hackney", override: true},
+      {:hackney, "~> 4.0", override: true},
       {:tzdata, github: "lau/tzdata", override: true}
     ]
-  end
-
-  defp astarte_lib(library_name) do
-    base_directory = System.get_env("ASTARTE_LIBRARIES_PATH", "../../libs")
-    Path.join(base_directory, library_name)
   end
 end

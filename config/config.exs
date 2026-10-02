@@ -155,4 +155,11 @@ config :astarte_realm_management, Astarte.RealmManagementWeb.Endpoint,
 config :astarte_realm_management, Astarte.RealmManagementWeb.AuthGuardian,
   allowed_algos: ["ES256", "ES384", "ES512", "PS256", "PS384", "PS512", "RS256", "RS384", "RS512"]
 
+config :astarte_secrets, :dek_cache_ttl_seconds, 5 * 60
+
+config :astarte_data_access, ecto_repos: [Astarte.DataAccess.Repo]
+
+config :astarte_data_access, Astarte.DataAccess.Repo, sync_connect: 5000
+config :ex_unit, timeout: 10_000
+
 import_config "#{config_env()}.exs"

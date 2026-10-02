@@ -69,7 +69,7 @@ defmodule Astarte.Pairing.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:astarte_core, path: astarte_lib("astarte_core")},
+      {:astarte_core, in_umbrella: true},
       {:astarte_realm_management, in_umbrella: true, only: :test, runtime: false},
       {:castore, "~> 1.0.0"},
       {:phoenix, "~> 1.7"},
@@ -86,7 +86,7 @@ defmodule Astarte.Pairing.Mixfile do
       {:mox, "~> 1.3", only: :test},
       {:pretty_log, "~> 0.1"},
       {:plug_logger_with_meta, "~> 0.1"},
-      {:dialyxir, "~> 1.0", only: [:dev, :ci, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:skogsra, "~> 2.2"},
       {:cors_plug, "~> 2.0"},
       {:telemetry, "~> 1.3", override: true},
@@ -95,29 +95,23 @@ defmodule Astarte.Pairing.Mixfile do
       {:telemetry_metrics_prometheus_core, "~> 1.2"},
       {:observer_cli, "~> 1.5"},
       {:cfxxl, github: "secomind/cfxxl", branch: "main"},
-      {:astarte_data_access, path: astarte_lib("astarte_data_access")},
-      {:astarte_generators, path: astarte_lib("astarte_generators"), only: [:dev, :test]},
-      {:astarte_secrets, path: astarte_lib("astarte_secrets"), override: true},
+      {:astarte_data_access, in_umbrella: true},
+      {:astarte_generators, in_umbrella: true, only: [:dev, :test]},
+      {:astarte_secrets, in_umbrella: true},
       {:bcrypt_elixir, "~> 2.2"},
-      {:exandra, github: "vinniefranco/exandra"},
-      {:mimic, "~> 2.3", only: [:test, :dev]},
+      {:mimic, "~> 2.4", only: [:test, :dev]},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:con_cache, "~> 1.1"},
-      {:astarte_events, path: astarte_lib("astarte_events")},
+      {:astarte_events, in_umbrella: true},
       {:astarte_fdo, in_umbrella: true},
-      {:astarte_fdo_core, path: astarte_lib("astarte_fdo_core")},
+      {:astarte_fdo_core, in_umbrella: true},
       {:astarte_rpc, in_umbrella: true},
       {:open_api_spex, "~> 3.22"},
       {:ymlr, "~> 5.1"},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:httpoison, "~> 3.0"},
-      {:hackney, github: "benoitc/hackney", override: true},
+      {:hackney, "~> 4.0", override: true},
       {:tzdata, github: "lau/tzdata", override: true}
     ]
-  end
-
-  defp astarte_lib(library_name) do
-    base_directory = System.get_env("ASTARTE_LIBRARIES_PATH", "../../libs")
-    Path.join(base_directory, library_name)
   end
 end

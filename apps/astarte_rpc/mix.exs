@@ -63,16 +63,16 @@ defmodule Astarte.RPC.MixProject do
 
   defp deps do
     [
-      {:astarte_core, path: "../../libs/astarte_core"},
-      {:astarte_data_access, path: "../../libs/astarte_data_access"},
-      {:astarte_events, path: "../../libs/astarte_events", runtime: false},
-      {:astarte_generators, path: "../../libs/astarte_generators", only: [:dev, :test]},
+      {:astarte_core, in_umbrella: true},
+      {:astarte_data_access, in_umbrella: true},
+      {:astarte_events, in_umbrella: true, runtime: false},
+      {:astarte_generators, in_umbrella: true, only: [:dev, :test]},
       # https://github.com/elixir-horde/horde/pull/291
       {:horde, github: "noaccOS/horde", branch: "push-ozyqtonylvpv"},
       {:mneme, "~> 0.10", only: [:dev, :test]},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:libcluster, "~> 3.3"},
-      {:mimic, "~> 2.3", only: [:test, :dev]},
+      {:mimic, "~> 2.4", only: [:test, :dev]},
       {:phoenix_pubsub, "~> 2.0"},
       {:skogsra, "~> 2.0"},
       {:typedstruct, github: "saleyn/typedstruct"},
@@ -80,7 +80,7 @@ defmodule Astarte.RPC.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:httpoison, "~> 3.0", override: true},
-      {:hackney, github: "benoitc/hackney", override: true},
+      {:hackney, "~> 4.0", override: true},
       {:tzdata, github: "lau/tzdata", override: true}
     ]
   end
